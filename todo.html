@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Todo</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<style type="text/css">
+		body{
+			margin: 0;
+			padding:0;
+			background-color: #27ae60;
+		}
+		.todowrapper{
+			background-color: white;
+			margin: auto ;
+			margin-top: 100px;
+		}
+	</style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 todowrapper p-5 text-center" id="todoapp">
+				<h1>Todos</h1>
+				<div class="col-md-10">
+					<input type="text" name="todo" placeholder="Add todo here" class="form-control input-lg mr-2 nowrap mb-2" v-model="newtask">
+				</div>
+				<div class="col-md-1">
+					<input v-on:click="addTask" type="submit" name="submit" value="Add" class="btn btn-primary mb-5 ml-0">
+				</div>
+				<ul>
+					<h1 v-if="tasks.length">Task to-do</h1>
+					<li v-for="(task,index) in tasks" class="input-group  m-2 p-2">
+						<p class="form-control input-lg mr-2" v-on:click="completedTask(index)">{{ task }}</p>
+						<a class="btn btn-danger float-right"  v-on:click="deleteTask(index)">Del</a>
+					</li>
+					<h1 v-if="completed_tasks.length">Completed Task</h1>
+					<li v-for="(completed_task,index) in completed_tasks" class="input-group  m-2 p-2">
+						<p class="form-control input-lg mr-2">{{ completed_task }}</p>
+						<a class="btn btn-danger float-right"  v-on:click="deletecompletedTask(index)">Del</a>
+					</li>
+					<small v-if="completed_tasks.length" v-on:click="clearAllTasks">clear all completed tasks</small>
+				</ul>
+			</div>
+		</div>
+		
+	</div>
+
+
+<script type="text/javascript">
+	var app1 = new Vue({
+		el:'#todoapp',
+		data:{
+			tasks: [],
+			completed_tasks:[],
+			newtask : null
+		},
+		methods:{
+			addTask : function(){
+				this.tasks.push(this.newtask);
+				this.newtask = ''
+			},
+			deleteTask : function(index){
+				this.tasks.splice(index,1)
+			},
+			completedTask: function(index){
+				this.completed_tasks.push(this.tasks[index]);
+				this.tasks.splice(index,1);
+			},
+			deletecompletedTask : function(index){
+				this.completed_tasks.splice(index,1)
+			},
+			clearAllTasks :function(){
+				this.completed_tasks.splice(0,this.completed_tasks.length)
+			}
+		}
+	});
+</script>
+</body>
+</html>
